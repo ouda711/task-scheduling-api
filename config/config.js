@@ -5,23 +5,30 @@ module.exports = {
     "password": process.env.DB_PASSWORD,
     "database": process.env.DB_NAME,
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "operatorsAliases": 0
   },
   "test": {
     "username": "root",
     "password": null,
     "database": "database_test",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "postgres",
+    "operatorsAliases": 0
   },
   "production": {
     "username": process.env.DB_USERNAME,
     "password": process.env.DB_PASSWORD,
     "database": process.env.DB_NAME,
     "host": process.env.DB_HOST,
+    "ssl":true,
     "dialect": "postgres",
-    "dialectOptions": {
-      "ssl": true
-    }
+    "dialectOptions":{
+      "ssl":{
+        require:true,
+        rejectUnauthorized: false
+      },
+    },
+    "operatorsAliases": 1,
   }
 }
