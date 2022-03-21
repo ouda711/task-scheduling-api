@@ -16,7 +16,7 @@ function loginSuccess(user) {
             id: user.id,
             first_name: user.first_name,
             last_name: user.last_name,
-            roles: RolesDto.toNameList(user.roles || [])
+            roles: RolesDto.toNameList(user.Roles || [])
         }
     }
 }
