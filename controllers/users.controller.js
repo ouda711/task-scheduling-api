@@ -1,9 +1,11 @@
 const _ = require('lodash');
+const crypto = require('crypto');
 const models = require('../models');
 const Op = require('../models/index').Sequelize.Op;
 const UserResponseDto = require('../dtos/responses/user.response.dto');
 const UserRequestDto = require('../dtos/requests/user.request.dto');
 const AppResponseDto = require('../dtos/responses/app.response.dto');
+const VerificationMailer = require('../helpers/mailer/verification.helper.mailer');
 
 exports.register = (req, res) => {
     const body = req.body;
@@ -15,6 +17,7 @@ exports.register = (req, res) => {
 
     const email_address = resultBinding.validatedData.email_address;
     const phone_number = resultBinding.validatedData.phone_number;
+    const hash = crypto.createHmac('sha256',email_address).update('Task-Scheduling-API').digest('hex');
 
     models.User.findOne({
         where: {
@@ -40,6 +43,7 @@ exports.register = (req, res) => {
             if(user) {
                 console.log(user.toJSON());
                 res.json(UserResponseDto.registerDto(user));
+                VerificationMailer.send(email_address, hash).then(r => console.log('Success'));
             }else{
                 console.log('No user');
             }
