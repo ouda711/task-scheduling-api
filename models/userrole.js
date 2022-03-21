@@ -11,18 +11,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      UserRole.belongsTo(models.Role, {foreignKey:'role_id'});
-      UserRole.belongsTo(models.User, {foreignKey:'user_id'});
+      UserRole.belongsTo(models.Role, {foreignKey:'roleId'});
+      UserRole.belongsTo(models.User, {foreignKey:'userId'});
     }
   }
   UserRole.init({
-    user_id: {
+    userId: {
       type: DataTypes.UUID,
-      field: 'user_id'
+      field: 'userId'
     },
-    role_id: {
+    roleId: {
       type: DataTypes.UUID,
-      field: 'role_id'
+      field: 'roleId'
     }
   }, {
     sequelize,

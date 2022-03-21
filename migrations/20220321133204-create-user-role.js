@@ -2,7 +2,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('UserRoles', {
-      user_id: {
+      userId: {
         type: Sequelize.UUID,
         allowNull: false,
         references:{
@@ -12,7 +12,7 @@ module.exports = {
         onUpdate:'cascade',
         onDelete:'cascade',
       },
-      role_id: {
+      roleId: {
         type: Sequelize.UUID,
         allowNull: false,
         references:{
