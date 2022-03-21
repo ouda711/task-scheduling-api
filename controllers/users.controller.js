@@ -1,4 +1,5 @@
 const _ = require('lodash');
+require('dotenv').config();
 const crypto = require('crypto');
 const models = require('../models');
 const Op = require('../models/index').Sequelize.Op;
@@ -41,9 +42,17 @@ exports.register = (req, res) => {
             }
 
             if(user) {
+                let hostname = req.headers.host;
+
+                let url = null;
+                if(process.env.NODE_ENV === 'production'){
+                    url = `https://${hostname}/api/v1/users/confirm/${hash}`;
+                }else{
+                    url = `http://localhost:${process.env.API_PORT}/api/v1/users/confirm/${hash}`
+                }
                 console.log(user.toJSON());
                 res.json(UserResponseDto.registerDto(user));
-                VerificationMailer.send(email_address, hash).then(r => console.log('Success'));
+                VerificationMailer.send(url, email_address, hash).then(r => console.log('Success'));
             }else{
                 console.log('No user');
             }

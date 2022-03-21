@@ -1,10 +1,12 @@
 'use strict'
 
 require('dotenv').config();
+const url = require('url');
+const http = require('http');
 const nodemailer = require('nodemailer');
 const models = require('../../models');
 
-async function send(to, link) {
+async function send(to, link, url) {
     let transporter = nodemailer.createTransport({
         host: process.env.MAIL_HOST,
         port: process.env.MAIL_PORT,
@@ -15,7 +17,6 @@ async function send(to, link) {
         },
     });
 
-    const url = `http://localhost:${process.env.API_PORT}/api/v1/users/confirm/${link}`;
     let message = {
         from: '"Task Scheduling API" <noreply@task-scheduling-api.com>',
         to: to,
