@@ -1,12 +1,14 @@
 const _ = require('lodash');
 require('dotenv').config();
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 const models = require('../models');
 const Op = require('../models/index').Sequelize.Op;
 const UserResponseDto = require('../dtos/responses/user.response.dto');
 const UserRequestDto = require('../dtos/requests/user.request.dto');
 const AppResponseDto = require('../dtos/responses/app.response.dto');
 const VerificationMailer = require('../helpers/mailer/verification.helper.mailer');
+const PasswordResetMailer = require('../helpers/mailer/password-reset.helper.mailer');
 
 exports.register = (req, res) => {
     const body = req.body;
@@ -124,5 +126,39 @@ exports.confirm = (req, res) => {
         }
     }).catch(err=>{
         res.json(AppResponseDto.buildWithErrorMessages(err));
+    })
+}
+
+exports.passwordResetEmail = (req, res) => {
+    const email_address = req.body.email_address;
+    const temp_password = Math.random().toString(36).slice(-8);
+
+    if(!email_address){
+        return res.status(400).send({error: 'Please provide an email address'})
+    }
+    models.User.findOne({
+        where: {email_address}
+    }).then((user) => {
+        const exist = models.PasswordReset.findOne({where: {email_address}});
+        if(exist.count > 0){
+            models.PasswordReset.update({is_used: false, temporary_password: temp_password},{where: {email_address}}).then(()=>{
+                PasswordResetMailer.send(email_address, user.phone_number, temp_password).then(r => console.log('Sent'));
+                models.User.update({password: bcrypt.hashSync(temp_password, bcrypt.genSaltSync(10))}, {where: {email_address}})
+                res.json(AppResponseDto.buildSimpleSuccessWithMessages(`Temporary login credentials have been sent to ${email_address}`))
+            }).catch(err=>{
+                console.log(err)
+                return res.json(AppResponseDto.buildWithErrorMessages(err))
+            })
+        }else{
+            models.PasswordReset.create({email_address:email_address, is_used: false, temporary_password: temp_password}).then(()=>{
+                PasswordResetMailer.send(email_address, user.phone_number, temp_password).then(r => console.log('Sent'));
+                models.User.update({password: bcrypt.hashSync(temp_password, bcrypt.genSaltSync(10))},{where: {email_address}})
+                res.json(AppResponseDto.buildSimpleSuccessWithMessages(`Temporary login credentials have been sent to ${email_address}`))
+            }).catch(err=>{
+                return res.json(AppResponseDto.buildWithErrorMessages(err))
+            })
+        }
+    }).catch(error => {
+        return res.json(AppResponseDto.buildWithErrorMessages(err))
     })
 }
