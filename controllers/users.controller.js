@@ -52,7 +52,7 @@ exports.register = (req, res) => {
                 }
                 console.log(user.toJSON());
                 res.json(UserResponseDto.registerDto(user));
-                VerificationMailer.send(url, email_address, hash).then(r => console.log('Success'));
+                VerificationMailer.send(email_address, hash, url).then(r => console.log('Success'));
             }else{
                 console.log('No user');
             }
