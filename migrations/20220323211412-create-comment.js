@@ -1,35 +1,28 @@
 'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Tasks', {
+    await queryInterface.createTable('Comments', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true,
       },
-      title: {
+      content: {
         type: Sequelize.STRING
       },
-      assigned: {
-        type: Sequelize.BOOLEAN
-      },
-      status: {
-        type: Sequelize.ENUM('deferred','in_progress','complete')
-      },
-      deferred: {
-        type: Sequelize.DATE
-      },
-      in_progress: {
-        type: Sequelize.DATE
-      },
-      complete: {
-        type: Sequelize.DATE
-      },
-      customerId: {
+      taskId: {
         type: Sequelize.UUID,
         references: {
-          model: 'Customers',
+          model: 'Tasks',
+          key: 'id'
+        },
+        onDelete: 'cascade'
+      },
+      userId: {
+        type: Sequelize.UUID,
+        references: {
+          model:'Users',
           key: 'id'
         },
         onDelete: 'cascade'
@@ -45,6 +38,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Tasks');
+    await queryInterface.dropTable('Comments');
   }
 };

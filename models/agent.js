@@ -11,9 +11,16 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Agent.belongsToMany(models.Task, {through: models.TaskAgent, foreignKey:'agentId', otherKey:'taskId'})
     }
   }
   Agent.init({
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      primaryKey: true,
+    },
     personel_first_name: DataTypes.STRING,
     personel_last_name: DataTypes.STRING,
     personel_other_name: DataTypes.STRING

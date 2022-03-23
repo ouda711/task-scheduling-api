@@ -11,15 +11,27 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Task.hasMany(models.Comment, {foreignKey:'taskId'});
+      Task.belongsTo(models.Customer, {foreignKey: 'customerId'});
+      Task.belongsToMany(models.Agent, {through: models.TaskAgent, foreignKey:'taskId',otherKey:'agentId'})
     }
   }
   Task.init({
-    title: DataTypes.STRING,
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING
+    },
     assigned: DataTypes.BOOLEAN,
-    status: DataTypes.ENUM,
+    status: DataTypes.ENUM('deferred','in_progress','complete'),
     deferred: DataTypes.DATE,
     in_progress: DataTypes.DATE,
-    complete: DataTypes.DATE
+    complete: DataTypes.DATE,
+    customerId: DataTypes.UUID
   }, {
     sequelize,
     modelName: 'Task',
