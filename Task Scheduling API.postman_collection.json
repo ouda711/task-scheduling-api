@@ -1,0 +1,153 @@
+{
+	"info": {
+		"_postman_id": "f86945ca-b526-4ebb-9f3b-03d12bc84e39",
+		"name": "Task Scheduling API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"Ouda\",\n    \"last_name\": \"Wycliffe\",\n    \"email_address\": \"oudawy105@gmail.com\",\n    \"phone_number\": \"07001522333\",\n    \"password\": \"Ouda@1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://task-scheduling-api-interview.herokuapp.com/api/v1/users/register",
+					"protocol": "https",
+					"host": [
+						"task-scheduling-api-interview",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"phone\": \"07001522333\",\n    \"password\": \"Ouda@1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://task-scheduling-api-interview.herokuapp.com/api/v1/users/login",
+					"protocol": "https",
+					"host": [
+						"task-scheduling-api-interview",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Account Verification",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://task-scheduling-api-interview.herokuapp.com/api/v1/users/confirm/a145bf98e9030ad8357e86c529b96bf846cd7a3c4e4f989742ded17f40c54609",
+					"protocol": "https",
+					"host": [
+						"task-scheduling-api-interview",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"confirm",
+						"a145bf98e9030ad8357e86c529b96bf846cd7a3c4e4f989742ded17f40c54609"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Forget Password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email_address\":\"oudawy105@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:4000/api/v1/users/forget-password",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"forget-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get tasks",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Get single task",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "LINK",
+			"value": "https://task-scheduling-api-interview.herokuapp.com"
+		}
+	]
+}
