@@ -25,3 +25,7 @@ function buildDto(agent) {
         updated_at: agent.updatedAt,
     }
 }
+
+module.exports = {
+    buildDto, buildPagedList, buildDtos
+}

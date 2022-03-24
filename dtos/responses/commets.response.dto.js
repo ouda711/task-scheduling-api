@@ -10,7 +10,7 @@ function buildPagedList(comments, page, pageSize, totalCommentsCount, basePath, 
 }
 
 function buildDtos(comments, includeUser = false, includeTask = false) {
-    if (comments === null)
+    if (comments == null)
         return {comments: []};
     return {
         comments: comments.map(comment => buildDto(comment, includeUser, includeTask))

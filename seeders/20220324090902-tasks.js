@@ -26,9 +26,10 @@ module.exports = {
             title: faker.random.words(5),
             assigned: faker.datatype.boolean(),
             status: faker.helpers.randomize(['complete','deferred','in_progress']),
-            deferred: faker.helpers.randomize([null,faker.date.past()]),
-            in_progress: faker.helpers.randomize([null,faker.date.past()]),
-            complete: faker.helpers.randomize([null,faker.date.past()]),
+            deferred: faker.helpers.randomize([faker.date.past()]),
+            in_progress: faker.helpers.randomize([faker.date.past()]),
+            complete: faker.helpers.randomize([faker.date.past()]),
+            customerId: customers.id,
             createdAt: faker.date.past(),
             updatedAt: faker.date.past(),
           }, {transaction: t}));

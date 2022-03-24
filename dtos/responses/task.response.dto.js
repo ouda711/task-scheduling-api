@@ -2,6 +2,7 @@ const PageMetaDto = require('./paginator.reponse.dto');
 const UserDto = require('./user.response.dto');
 const AgentDto = require('./agent.response.dto');
 const CommentsDto = require('./commets.response.dto');
+const CustomersDto = require('./customer.response.dto');
 
 function buildPagedList(tasks, page, pageSize, totalResourcesCount, basePath) {
     return {
@@ -26,6 +27,7 @@ function buildDto(task) {
         deferred: task.deferred,
         in_progress: task.in_progress,
         complete: task.complete,
+        ...CustomersDto.buildDtos(task.Customer),
         created_at: task.createdAt,
         updated_at: task.updated_at,
         comments_count: task.Comments ? task.Comments.length : task.comments_count || 0
@@ -34,14 +36,16 @@ function buildDto(task) {
 
 function buildDetails(task, includeCommentUser, includeCommentTaskSummary) {
     let task_result = buildDto(task);
-    task_result.comments_count = undefined;
     task_result.title = task.title;
     task_result.comments_count = task.comments_count;
-
-    task_result = {...task_result, ...CommentsDto.buildDtos(task.comments, includeCommentUser, includeCommentTaskSummary)};
-
+    task_result = {...task_result, ...CommentsDto.buildDtos(task.Comments, includeCommentUser, includeCommentTaskSummary)};
+    task_result = {...task_result, ...AgentDto.buildDtos(task.Agents)}
     return {
         success: true,
         ...task_result
     }
+}
+
+module.exports = {
+    buildPagedList, buildDetails, buildDtos, buildDto
 }
