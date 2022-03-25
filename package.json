@@ -21,6 +21,7 @@
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-jwt": "^6.1.1",
+    "@faker-js/faker": "^6.0.0",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
@@ -33,7 +34,6 @@
     "sequelize": "^6.17.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^6.0.0",
     "sequelize-cli": "^6.4.1"
   }
 }
